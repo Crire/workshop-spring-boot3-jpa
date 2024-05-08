@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -24,6 +25,10 @@ public class User implements Serializable {
     private String phone;
     private String password;
 
+    //JsonIgnore esta aqui pois user e order tem uma dependencia entre si,
+    //entao quando carrega um, o outro vem, e assim por diante num looping
+    //infinito. Por isso usamos o JsonIgnore, para ignora o loading de um
+    @JsonIgnore
     @OneToMany(mappedBy ="client")
     private List<Order> orders = new ArrayList<>();
 
