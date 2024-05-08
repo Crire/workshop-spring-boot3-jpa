@@ -28,7 +28,11 @@ public class Product implements Serializable {
     //Da mesma maneira que usamos o ArrayList ao inves de List, pois
     //List é uma INTERFACE e o ArrayList é uma CLASSE que implementa
     //essa interface
-    @Transient
+    @ManyToMany
+    @JoinTable(name= "tb_product_category",
+            joinColumns = @JoinColumn(name = "category_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
     private Set<Category> categories = new HashSet<>();
 
     public Product (){}
