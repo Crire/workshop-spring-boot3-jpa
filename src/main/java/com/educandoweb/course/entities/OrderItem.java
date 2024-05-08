@@ -1,6 +1,7 @@
 package com.educandoweb.course.entities;
 
 import com.educandoweb.course.entities.pk.OrderItemPK;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -13,8 +14,11 @@ import java.util.Objects;
 public class OrderItem implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    //Precisamos colocar o JsonIgnore devido ao User aqui, porém estamos acessando outro
+    //objeto que possui o User, que e o OrderItemPK. Por isso, iremos colocar
+    //o JsonIgnore no metodo GetOrder da classe OrderItem
     @EmbeddedId
-    private OrderItemPK id;
+    private OrderItemPK id = new OrderItemPK();
 
     private Integer quantity;
     private Double price;
@@ -29,16 +33,18 @@ public class OrderItem implements Serializable {
         this.price = price;
     }
 
+    @JsonIgnore
     public Order getOrder(){
         return id.getOrder();
     }
-    public void getOrder(Order order){
+    public void setOrder(Order order){
         id.setOrder(order);
     }
 
     public Product getProduct(){
         return id.getProduct();
     }
+
     public void getOrder(Product product){
         id.setProduct(product);
     }
